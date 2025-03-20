@@ -3,6 +3,12 @@ import 'package:waste_friendly/screen/home_screen.dart';
 import 'package:waste_friendly/screen/home_screen1.dart';
 import 'package:waste_friendly/screen/home_screen2.dart';
 import 'package:waste_friendly/screen/home_screen3.dart';
+import 'package:waste_friendly/screen/home_screen4.dart';
+import 'package:waste_friendly/screen/home_screen5.dart';
+import 'package:waste_friendly/screen/home_screen6.dart';
+
+
+
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +21,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      // title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: RegisterScreen()
+      home: MyHome()
     );
   }
 }
+

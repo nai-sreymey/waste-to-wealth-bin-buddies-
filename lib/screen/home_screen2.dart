@@ -30,11 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-
-              // Name Input Field
-              _buildTextField("Full Name", Icons.person, false),
-              const SizedBox(height: 15),
-
               // Email Input Field
               _buildTextField("Email", Icons.email, false),
               const SizedBox(height: 15),
@@ -72,11 +67,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
+                    backgroundColor: const Color(0xFFF26606),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                   ),
                   onPressed: () {},
                   child: const Text(
@@ -132,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   BoxDecoration _inputDecoration() {
     return BoxDecoration(
       color: Colors.grey.shade200,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
           color: Colors.black12,
