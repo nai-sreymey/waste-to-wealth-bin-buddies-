@@ -6,7 +6,7 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple, // Background color similar to your image
+      backgroundColor: Colors.purple, // Background color similar to your splash screen
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,22 +16,22 @@ class MyHome extends StatelessWidget {
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white, // Adjusted text color to white for better contrast
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             Image.asset(
-              'assets/images/logo.png', // Replace with your actual image path
-              width: 100, // Adjust size as needed
-              height: 100,
+              'assets/images/logo.png', // Correct image path
+              width: 138, // Adjust size as needed
+              height: 139,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             const Text(
               "Wealth",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white, // Adjusted text color to white for better contrast
               ),
             ),
           ],
