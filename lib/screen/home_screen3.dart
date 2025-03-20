@@ -16,7 +16,7 @@ class SuccessScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(30), // Increased padding
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.purple.shade300,
+                  color: const Color.fromARGB(255, 209, 123, 25),
                 ),
                 child: const Icon(
                   Icons.check_circle,
