@@ -14,6 +14,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  fl_chart: ^0.70.2
+  carousel_slider: ^4.2.1  # Use the latest version available
+
+  
+
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
   table_calendar: ^3.2.0  # This is your calendar dependency.
   cupertino_icons: ^1.0.8  # Icon dependencies.
   flutter_native_splash: ^2.4.5
