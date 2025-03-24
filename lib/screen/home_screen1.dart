@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../screen/home_screen_page.dart'; // Import HomeScreen
+import '../screen//home_screen2.dart'; // Import RegisterScreen
+import '../screen/home_screen_forgot.dart'; // Import ForgotPasswordScreen
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,6 +12,26 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
+
+  // Controllers to manage user input
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login() {
+    // Basic validation to check if the fields are not empty
+    if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
+      // Navigate to HomeScreen after login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenPage()), // Redirect to HomeScreen
+      );
+    } else {
+      // Show error message if fields are empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter both email and password')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 decoration: _inputDecoration(),
                 child: TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Email",
                     border: InputBorder.none,
@@ -53,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 decoration: _inputDecoration(),
                 child: TextField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "Password",
@@ -85,9 +110,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Remember me"),
                     ],
                   ),
-                  const Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.blue),
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to Forgot Password Screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ],
               ),
@@ -104,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
-                  onPressed: () {},
+                  onPressed: _login, // Trigger login when pressed
                   child: const Text(
                     "Login",
                     style: TextStyle(fontSize: 18, color: Colors.white),
@@ -119,7 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text("Don't have an account?"),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate to the RegisterScreen when clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      );
+                    },
                     child: const Text(
                       "Register",
                       style: TextStyle(fontWeight: FontWeight.bold),
