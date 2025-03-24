@@ -13,6 +13,8 @@ import 'package:waste_friendly/screen/home_screen5.dart';
 import 'package:waste_friendly/screen/home_screen6.dart';
 
 
+import 'package:waste_friendly/screen/home_screen_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -45,3 +47,15 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+      home: HomeScreenPage(), 
+    );
+  }
+}
+
+// Navigator.pushReplacement(
+//   context,
+//   MaterialPageRoute(builder: (context) => const ()),
+// );
+      // title: 'Flutter Demo',
+
+

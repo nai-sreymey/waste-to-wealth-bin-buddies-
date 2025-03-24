@@ -29,6 +29,7 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
         MaterialPageRoute(builder: (context) => SchedulePickupScreen()),
       );
     }
+
   }
 
   @override
@@ -39,6 +40,7 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
           "Selected: $_selectedIndex",
         ),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -52,18 +54,18 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'History',
+            label: 'Histroy',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.layers),
             label: 'Social',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            )
         ],
-      ),
+        ),
     );
   }
 }

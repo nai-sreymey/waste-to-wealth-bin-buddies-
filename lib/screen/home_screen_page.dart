@@ -13,7 +13,6 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     setState(() {
       _selectedIndex = index;
     });
-
     // You can perform navigation here based on the selected index
     if (_selectedIndex == 0) {
       // If the "Home" tab is tapped, navigate to the HomeScreenPage
@@ -23,6 +22,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       );
     }
   }
+
 
   final List<Map<String, String>> activities = [
     {
@@ -84,6 +84,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildChart(),
+
             const SizedBox(height: 20),
             const Text(
               'Action',
@@ -118,6 +119,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
           ],
         ),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -180,6 +182,8 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
             ),
           ],
         ),
+
+
         const SizedBox(height: 10),
         SizedBox(
           height: 200,
@@ -211,6 +215,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       ],
     );
   }
+
 
   Widget _actionButton(String title, String iconPath) {
     return Container(
@@ -249,6 +254,9 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     );
   }
 
+
+  
+
   Widget _carousel() {
     return Container(
       height: 250,
@@ -261,6 +269,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       ),
     );
   }
+
 
   Widget _recentActivity() {
     return Column(
