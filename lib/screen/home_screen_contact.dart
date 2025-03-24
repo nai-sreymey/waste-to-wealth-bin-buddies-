@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:waste_friendly/screen/home_screen_page.dart'; // Import your HomeScreenPage
 
 class HomeScreenContact extends StatefulWidget {
   const HomeScreenContact({super.key});
@@ -15,14 +14,6 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
     setState(() {
       _selectedIndex = index;
     });
-
-    if (_selectedIndex == 0) {
-      // If the "Home" tab is tapped, navigate to the HomeScreenPage
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>  HomeScreenPage()),
-      );
-    }
   }
 
   @override
@@ -33,6 +24,7 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
           "Selected: $_selectedIndex",
         ),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -46,18 +38,18 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'History',
+            label: 'Histroy',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.layers),
             label: 'Social',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            )
         ],
-      ),
+        ),
     );
   }
 }
