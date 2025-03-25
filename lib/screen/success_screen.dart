@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart'; // Import the LoginScreen
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
@@ -48,7 +49,11 @@ class SuccessScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Handle continue action
+                  // Navigate to LoginScreen when 'Continue' is pressed
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  );
                 },
                 child: const Text(
                   'Continue',

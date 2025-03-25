@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:waste_friendly/screen/home_screen_page.dart'; 
+import 'package:waste_friendly/screen/schedule_pickup_screen.dart';
 
 class HomeScreenContact extends StatefulWidget {
   const HomeScreenContact({super.key});
@@ -14,6 +16,19 @@ class _HomeScreenContactState extends State<HomeScreenContact> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (_selectedIndex == 0) {
+      // If the "Home" tab is tapped, navigate to the HomeScreenPage
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenPage()),
+      );
+    } else if (_selectedIndex == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SchedulePickupScreen()),
+      );
+    }
   }
 
   @override
