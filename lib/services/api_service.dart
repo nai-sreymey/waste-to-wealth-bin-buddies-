@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:waste_friendly/models/ativity_controller.dart';
 import 'package:waste_friendly/models/point_model.dart';
+import 'package:waste_friendly/models/profile_screen.dart';
 import 'package:waste_friendly/models/user_model.dart';
 import 'package:waste_friendly/services/storage_service.dart';
 import 'package:waste_friendly/models/schedule_pickup.dart';
@@ -94,4 +95,35 @@ class ApiService {
       throw Exception('Failed to load points data');
     }
   }
+
+
+    // Fetch profile data
+  Future<ProfileModel> fetchProfile() async {
+    final token = await _storageService.getToken(); // Get token from storage
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/account/user'),
+      headers: {'Authorization': 'Bearer $token'}, // Use token for authorization
+    );
+
+    if (response.statusCode == 200) {
+      // Parse the JSON response and return PointsModel
+      return ProfileModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load profile data');
+    }
+  }
+
+
 }
+
+
+
+
+
+
+
