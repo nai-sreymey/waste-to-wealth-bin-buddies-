@@ -27,6 +27,7 @@ dev_dependencies:
     sdk: flutter
 flutter_lints: ^5.0.0  # For linting.
 
+
 flutter:
   uses-material-design: true  # Ensures Material Design is enabled.
   

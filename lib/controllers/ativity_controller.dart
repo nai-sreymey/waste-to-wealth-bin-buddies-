@@ -1,12 +1,12 @@
 
 
-// import 'package:waste_friendly/models/ativity_model.dart';
-// import 'package:waste_friendly/services/api_service.dart';
+import 'package:waste_friendly/services/api_service.dart';
+import 'package:waste_friendly/models/ativity_controller.dart';
 
-// class ActivityController {
-//   final ApiService _apiService = ApiService();
+class ActivityController {
+  final ApiService _apiService = ApiService();
 
-//   Future<List<Activity>> fetchActivities() {
-//     return _apiService.fetchActivity();
-//   }
-// }
+  Future<List<Activity>> fetchActivity() {
+    return _apiService.fetchActivity(20);
+  }
+}

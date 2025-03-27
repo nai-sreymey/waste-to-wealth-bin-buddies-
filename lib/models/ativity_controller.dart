@@ -6,6 +6,7 @@ class Activity {
   final String description;
   final DateTime date;
   final DateTime createdAt;
+  
 
   Activity({
     required this.id,
@@ -16,6 +17,7 @@ class Activity {
     required this.date,
     required this.createdAt,
   });
+
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
@@ -28,6 +30,7 @@ class Activity {
       createdAt: DateTime.parse(json['createdAt']),
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {

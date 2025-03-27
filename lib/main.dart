@@ -1,44 +1,33 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:waste_friendly/screen/home_screen_page.dart';
-import 'package:waste_friendly/screen/home_screen_contact.dart';
-import 'package:waste_friendly/screen/home_screen_list.dart';
-import 'package:waste_friendly/screen/splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:waste_friendly/controllers/points_controller.dart';
+import 'package:waste_friendly/screen/home_screen_social.dart';
 import 'package:waste_friendly/screen/login_screen.dart';
-import 'package:waste_friendly/screen/register_screen.dart';
-import 'package:waste_friendly/screen/success_screen.dart';
-import 'package:waste_friendly/screen/schedule_pickup_screen.dart';
-import 'package:waste_friendly/screen/history_pickup_screen.dart';
-import 'package:waste_friendly/screen/reward_screen.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => PointsController(),
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        title: 'Waste Friendly App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/login', // You might want to ensure that '/login' is a valid route
+        routes: {
+          '/': (context) => HomeScreenSocial(),
+          '/login': (context) => LoginScreen(), // Make sure this screen exists
+        },
       ),
-      // Initial screen should be the login page
-      initialRoute: '/login',
-      routes: {
-        '/homeScreenContact': (context) => HomeScreenContact(),
-        '/home': (context) => HomeScreenPage(),
-        '/schedule': (context) => SchedulePickupScreen(),
-        '/homeScreenList': (context) => HomeScreenList(),
-        '/splash': (context) => MyHome(),
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-        '/success': (context) => SuccessScreen(),
-        '/pickupHistory': (context) => MyApp1(),
-        '/reward': (context) => MyApp2(),
-      },
     );
   }
 }
