@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:waste_friendly/controllers/points_controller.dart';
 import 'package:waste_friendly/screen/home_screen_social.dart';
 import 'package:waste_friendly/screen/login_screen.dart';
+import 'package:waste_friendly/screen/profile_screen.dart';
 
 
 void main() {
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/login', // You might want to ensure that '/login' is a valid route
         routes: {
-          '/': (context) => HomeScreenSocial(),
+          '/': (context) => ProfileScreen(),
           '/login': (context) => LoginScreen(), // Make sure this screen exists
+
         },
       ),
     );
