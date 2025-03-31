@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:waste_friendly/component/points_screen.dart';
 import 'package:waste_friendly/controllers/ativity_controller.dart';
 import 'package:waste_friendly/models/ativity_controller.dart';
+import 'package:waste_friendly/screen/history_pickup_screen.dart';
 import 'package:waste_friendly/screen/home_screen_list.dart';
 import 'package:fl_chart/fl_chart.dart'; // Import the fl_chart package
+import 'package:waste_friendly/screen/socai_screen.dart';
+import '../screen/home_screen_page.dart'; // Import the history screen
+import 'schedule_pickup_screen.dart'; // Import SchedulePickupScreen
+import '../screen/reward_screen.dart'; // Import RewardsScreen
+import '../screen/socai_screen.dart'; // Import SocialScreen (assuming you create this screen)
+import 'profile_screen.dart'; // Import ProfileScreen (assuming you create this screen)
 
 class HomeScreenPage extends StatefulWidget {
   @override
@@ -25,6 +32,27 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       setState(() {
         _selectedIndex = index;
       });
+    }
+
+    // Navigation logic for BottomNavigationBar tabs
+    if (index == 1) {
+      // Navigate to History screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => PickupHistoryScreen()),
+      );
+    } else if (index == 2) {
+      // Navigate to Social screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenSocial()),
+      );
+    } else if (index == 3) {
+      // Navigate to Profile screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
+      );
     }
   }
 
@@ -65,7 +93,6 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
           children: [
             PointsScreen(),
             const SizedBox(height: 20),
-              const SizedBox(height: 20),
             _buildChart(),
             const Text(
               'Action',
@@ -75,8 +102,26 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _actionButton('Schedule Pickup', 'assets/images/Layer 25.png'),
-                _actionButton('Redeem', 'assets/images/Group.png'),
+                _actionButton(
+                  'Schedule Pickup',
+                  'assets/images/Layer 25.png',
+                  () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SchedulePickupScreen()),
+                    );
+                  },
+                ),
+                _actionButton(
+                  'Redeem',
+                  'assets/images/Group.png',
+                  () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => RewardsScreen()),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 20),
@@ -87,8 +132,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange),
             ),
             const SizedBox(height: 10),
-            _recentActivity(),
-          
+            _recentActivity(context), // Pass context
           ],
         ),
       ),
@@ -108,34 +152,30 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     );
   }
 
-
- Widget _actionButton(String title, String iconPath) {
-  return GestureDetector(
-    onTap: () {
-      print('$title tapped');
-    },
-    child: Container(
-      width: 150, // Set a fixed width
-      height: 150, // Set a fixed height
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Center the content vertically
-            children: [
-              Text(title, textAlign: TextAlign.center),
-              const SizedBox(height: 10),
-              Image.asset(iconPath, height: 60),
-            ],
+  Widget _actionButton(String title, String iconPath, VoidCallback onPressed) {
+    return GestureDetector(
+      onTap: onPressed, // Use the callback function here
+      child: Container(
+        width: 150,
+        height: 150,
+        child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(title, textAlign: TextAlign.center),
+                const SizedBox(height: 10),
+                Image.asset(iconPath, height: 60),
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   Widget _carousel() {
     return Container(
@@ -150,26 +190,45 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     );
   }
 
-  Widget _recentActivity() {
+  Widget _recentActivity(BuildContext context) {
     return FutureBuilder<List<Activity>>(
       future: _activities,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No activities found'));
+          return const Center(child: Text('No activities found'));
         } else {
-          // Display only 3 activities
           final activities = snapshot.data!.take(3).toList();
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: activities.length,
-            itemBuilder: (context, index) {
-              return _activityItem(activities[index]);
-            },
+          return Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: activities.length,
+                itemBuilder: (context, index) {
+                  return _activityItem(activities[index]);
+                },
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ActivityScreen()),
+                    );
+                  },
+                  child: const Text(
+                    "See All",
+                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
           );
         }
       },
@@ -192,25 +251,24 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       ),
     );
   }
-Widget _buildChart() {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10), // Add bottom margin
-    child: SizedBox(
-      height: 200,
-      child: LineChart(
-        LineChartData(
-          borderData: FlBorderData(show: false),
-          lineBarsData: [
-            LineChartBarData(
-              spots: [FlSpot(0, 1), FlSpot(1, 3), FlSpot(2, 2), FlSpot(3, 4)],
-              isCurved: true,
-              // colors: [Colors.orange],
-            ),
-          ],
+
+  Widget _buildChart() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        height: 200,
+        child: LineChart(
+          LineChartData(
+            borderData: FlBorderData(show: false),
+            lineBarsData: [
+              LineChartBarData(
+                spots: [FlSpot(0, 1), FlSpot(1, 3), FlSpot(2, 2), FlSpot(3, 4)],
+                isCurved: true,
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

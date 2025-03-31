@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:waste_friendly/screen/login_screen.dart';
 
-class MyHome extends StatelessWidget {
-  const MyHome({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Set a delay to show the splash screen and navigate to login after 3 seconds
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()), // Navigate to the login screen after splash
+      );
+    });
+
     return Scaffold(
       backgroundColor: Colors.purple, // Background color similar to your splash screen
       body: Center(

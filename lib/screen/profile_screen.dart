@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waste_friendly/controllers/profile_screen.dart';
 import 'package:waste_friendly/models/profile_screen.dart';
+import 'package:waste_friendly/screen/home_screen_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,6 +22,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+ Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenPage()),
+      );          },
+        ),
       ),
       body: FutureBuilder<ProfileModel?>(
         future: _profileController.fetchProfile(),

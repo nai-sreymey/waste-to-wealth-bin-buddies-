@@ -1,55 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:waste_friendly/controllers/reward_controller.dart';
+import 'package:waste_friendly/models/reward_model.dart';
+import 'package:waste_friendly/screen/home_screen_page.dart';
+import 'package:waste_friendly/screen/redeem_history.dart'; // Import for RedeemHistory screen
 
-void main() {
-  runApp(const MyApp2());
+class RewardsScreen extends StatefulWidget {
+  @override
+  _RewardsScreenState createState() => _RewardsScreenState();
 }
 
-class MyApp2 extends StatelessWidget {
-  const MyApp2({super.key});
+class _RewardsScreenState extends State<RewardsScreen> {
+  final RewardController _rewardController = RewardController();
+  late Future<List<RewardModel>> _rewards;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RewardsScreen(),
-    );
+  void initState() {
+    super.initState();
+    _rewards = _rewardController.fetchReward(); // Fetch rewards on initialization
   }
-}
-
-class RewardsScreen extends StatelessWidget {
-  final List<RewardItem> rewards = [
-    RewardItem(
-      title: 'Cash Voucher',
-      subtitle: '\$10',
-      points: '500 points',
-      icon: Icons.attach_money,
-    ),
-    RewardItem(
-      title: 'Shopping Discount',
-      subtitle: '20% OFF',
-      points: '1000 points',
-      icon: Icons.shopping_bag,
-    ),
-    RewardItem(
-      title: 'Free Pickup',
-      subtitle: '1 Service',
-      points: '250 points',
-      icon: Icons.local_shipping,
-    ),
-    RewardItem(
-      title: 'Eco-friendly Products',
-      subtitle: 'Gift Box',
-      points: '750 points',
-      icon: Icons.card_giftcard,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center, // Center everything in the column
         children: [
           Stack(
             children: [
@@ -95,7 +70,13 @@ class RewardsScreen extends StatelessWidget {
                 left: 16,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigate back to HomeScreenPage
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreenPage()),
+                    );
+                  },
                 ),
               ),
             ],
@@ -108,20 +89,31 @@ class RewardsScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.7, // ✅ Make the box tall
-              ),
-              itemCount: rewards.length,
-              itemBuilder: (context, index) {
-                return RewardCard(
-                  reward: rewards[index],
-                  isGray: true,
-                );
+            child: FutureBuilder<List<RewardModel>>(
+              future: _rewards,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No rewards available.'));
+                } else {
+                  List<RewardModel> rewards = snapshot.data!;
+                  return GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemCount: rewards.length,
+                    itemBuilder: (context, index) {
+                      return RewardCard(reward: rewards[index]);
+                    },
+                  );
+                }
               },
             ),
           ),
@@ -131,45 +123,30 @@ class RewardsScreen extends StatelessWidget {
   }
 }
 
-class RewardItem {
-  final String title;
-  final String subtitle;
-  final String points;
-  final IconData icon;
-
-  RewardItem({
-    required this.title,
-    required this.subtitle,
-    required this.points,
-    required this.icon,
-  });
-}
-
 class RewardCard extends StatelessWidget {
-  final RewardItem reward;
-  final bool isGray;
+  final RewardModel reward;
 
-  const RewardCard({super.key, required this.reward, this.isGray = false});
+  const RewardCard({super.key, required this.reward});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: isGray ? Colors.grey[300] : Colors.white,
+      color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+          crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
           children: [
-            // ✅ Bigger Circle
             CircleAvatar(
               backgroundColor: const Color(0xFFF26606).withOpacity(0.48),
-              radius: 35, // ✅ Bigger circle
+              radius: 35,
               child: Icon(
                 reward.icon,
                 color: Colors.black,
-                size: 40, // ✅ Bigger icon
+                size: 40,
               ),
             ),
             const SizedBox(height: 10),
@@ -177,13 +154,15 @@ class RewardCard extends StatelessWidget {
               reward.title,
               textAlign: TextAlign.center,
               style: const TextStyle(
+                fontSize: 25, // Increased title font size
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 letterSpacing: 2.0,
               ),
             ),
+            const SizedBox(height: 8),
             Text(
-              reward.subtitle,
+              reward.description,
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -191,8 +170,9 @@ class RewardCard extends StatelessWidget {
                 letterSpacing: 1.5,
               ),
             ),
+            const SizedBox(height: 4),
             Text(
-              reward.points,
+              reward.exchangePoint,
               style: const TextStyle(
                 fontSize: 15,
                 color: Colors.black,
@@ -200,17 +180,25 @@ class RewardCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF26606),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
-              onPressed: () {},
-              child: const Text(
-                'Redeem',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF000000),
+            Center( // Added Center widget to center the button
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFF26606),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+                onPressed: () {
+                  // Navigate to the RedeemHistory screen
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RedeemHistory()), // Navigate to RedeemHistory screen
+                  );
+                },
+                child: const Text(
+                  'Redeem',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF000000),
+                  ),
                 ),
               ),
             ),

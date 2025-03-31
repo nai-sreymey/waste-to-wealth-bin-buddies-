@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waste_friendly/screen/home_screen_page.dart';
 
 class HomeScreenSocial extends StatelessWidget {
   const HomeScreenSocial({super.key});
@@ -12,15 +13,27 @@ class HomeScreenSocial extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline),
-            onPressed: () {},
+            onPressed: () {
+              // Add your action here if needed
+            },
           ),
         ],
+        // Add back button to the leading position
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigating back to the previous screen
+  Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenPage()),
+      );          },
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12.0),
         children: [
           _buildPost(
-            profileImage: 'assets/images/logo.png',
+            profileImage: 'assets/images/ka.jpg',
             username: 'sorn monika',
             timeAgo: '2h ago',
             tag: 'Fundraising',
@@ -31,35 +44,35 @@ class HomeScreenSocial extends StatelessWidget {
             comments: 45,
           ),
           _buildPost(
-            profileImage: 'assets/jane_smith.jpg',
+            profileImage: 'assets/images/ka.jpg',
             username: 'Mey Mey Cute Girl',
             timeAgo: '5h ago',
             tag: '',
             title: 'Tree Planting Day',
             content: 'We planted 100 trees today! Every small action counts towards a greener future.',
-            imageUrl: 'assets/tree_planting.jpg',
+            imageUrl: 'assets/images/mey.png',
             likes: 98,
             comments: 30,
           ),
           _buildPost(
-            profileImage: 'assets/jane_smith.jpg',
+            profileImage: 'assets/images/ty.png',
             username: 'Nit Nit Beautiful',
             timeAgo: '5h ago',
             tag: '',
             title: 'Tree Planting Day',
             content: 'We planted 100 trees today! Every small action counts towards a greener future.',
-            imageUrl: 'assets/tree_planting.jpg',
+            imageUrl: 'assets/images/pov.png',
             likes: 98,
             comments: 30,
           ),
           _buildPost(
-            profileImage: 'assets/jane_smith.jpg',
+            profileImage: 'assets/images/na.png',
             username: 'In In In',
             timeAgo: '5h ago',
             tag: '',
             title: 'Tree Planting Day',
             content: 'We planted 100 trees today! Every small action counts towards a greener future.',
-            imageUrl: 'assets/tree_planting.jpg',
+            imageUrl: 'assets/images/all.png',
             likes: 98,
             comments: 30,
           ),
